@@ -70,12 +70,16 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
 
                 image_info = output_response.get('outputs', [{}])[0].get('data', {}).get('images', [{}])[0]
                 image_url = image_info.get('url')
-
-                if image_url:
-                    await bot.send_photo(chat_id=chat_id, photo=image_url)
-                else:
+                try:
+                    if image_url:
+                        await bot.send_photo(chat_id=chat_id, photo=image_url)
+                    else:
+                        await bot.send_photo(chat_id="Ha habido un error con el prompt", photo=image_url)
+                        return {"ok": True}
+                except:
                     await bot.send_photo(chat_id="Ha habido un error con el prompt", photo=image_url)
-                    return {"ok": True}
+                    return {"ok": True}  
+                
         else:
             await bot.send_message(chat_id=chat_id, text="Recuerda que solo estoy programado para recibir /prompt")
 
