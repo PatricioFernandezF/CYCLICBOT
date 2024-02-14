@@ -54,8 +54,10 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
         await bot.send_message(chat_id=chat_id, text="Welcome to Cyclic Starter Python Telegram Bot!")
     else:
         if "/prompt" in text:
-            await bot.send_message(chat_id=update.effective_chat.id, text="Procesando Prompt: "+text)
+            await bot.send_message(chat_id=chat_id, text="Procesando Prompt: "+text)
             api_key = TOKEN
             comfy_api = ComfyDeployAPI(api_key)
+        else:
+            await bot.send_message(chat_id=chat_id, text="Recuerda que solo estoy programado para recibir /prompt")
 
     return {"ok": True}
