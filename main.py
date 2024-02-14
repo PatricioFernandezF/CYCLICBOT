@@ -4,7 +4,7 @@ from fastapi import FastAPI, Header, HTTPException, Depends
 from telegram import Update, Bot
 from pydantic import BaseModel
 import asyncio
-
+from deploy import ComfyDeployAPI
 
 async def setup_webhook():
     await bot.set_webhook(url=webhook_url)
@@ -29,7 +29,8 @@ webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
 
 bot = Bot(token=bot_token)
-asyncio.run(setup_webhook())
+#asyncio.run(setup_webhook())
+setup_webhook()
 
 
 
