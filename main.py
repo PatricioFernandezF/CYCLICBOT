@@ -53,6 +53,9 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             await bot.send_photo(chat_id=chat_id, photo=photo)
         await bot.send_message(chat_id=chat_id, text="Welcome to Cyclic Starter Python Telegram Bot!")
     else:
-        await bot.send_message(chat_id=chat_id, reply_to_message_id=update.message["message_id"], text="Yo!")
+        if "/prompt" in text:
+            await bot.send_message(chat_id=update.effective_chat.id, text="Procesando Prompt: "+text)
+            api_key = TOKEN
+            comfy_api = ComfyDeployAPI(api_key)
 
     return {"ok": True}
