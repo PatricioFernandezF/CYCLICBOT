@@ -6,10 +6,7 @@ from pydantic import BaseModel
 import asyncio
 from deploy import ComfyDeployAPI
 
-async def setup_webhook():
-    await bot.set_webhook(url=webhook_url)
-    webhook_info = bot.get_webhook_info()
-    print(webhook_info)
+
 
 class TelegramUpdate(BaseModel):
     update_id: int
@@ -30,7 +27,10 @@ webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
 bot = Bot(token=bot_token)
 #asyncio.run(setup_webhook())
-asyncio.run(setup_webhook())
+print(bot)
+bot.set_webhook(url=webhook_url)
+webhook_info = bot.get_webhook_info()
+print(webhook_info)
 
 
 
