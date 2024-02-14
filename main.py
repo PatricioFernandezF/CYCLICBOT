@@ -54,31 +54,12 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
         await bot.send_message(chat_id=chat_id, text="¡Hola! Soy un bot de Telegram. Pon /prompt + el prompt")
     else:
         if "/prompt" in text:
-            await bot.send_message(chat_id=chat_id, text="Procesando Prompt: "+text)
             prompt=text.replace("/prompt ","")
+            await bot.send_message(chat_id=chat_id, text="Procesando Prompt: "+prompt)
             api_key = TOKEN
             comfy_api = ComfyDeployAPI(api_key)
             workflow_id = WORKFLOW
-            run_response = comfy_api.run_workflow(workflow_id,{"input_text":prompt})
-            print(run_response)
-
-            # Ejemplo de cómo obtener la salida de la ejecución de un workflow
-            run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
-            if run_id:
-                output_response = comfy_api.get_workflow_run_output(run_id)
-                print(output_response)
-
-                image_info = output_response.get('outputs', [{}])[0].get('data', {}).get('images', [{}])[0]
-                image_url = image_info.get('url')
-                try:
-                    if image_url:
-                        await bot.send_photo(chat_id=chat_id, photo=image_url)
-                    else:
-                        await bot.send_photo(chat_id="Ha habido un error con el prompt", photo=image_url)
-                        return {"ok": True}
-                except:
-                    await bot.send_photo(chat_id="Ha habido un error con el prompt", photo=image_url)
-                    return {"ok": True}  
+ 
                 
         else:
             await bot.send_message(chat_id=chat_id, text="Recuerda que solo estoy programado para recibir /prompt")
