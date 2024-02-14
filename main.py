@@ -20,15 +20,16 @@ bot_token = os.getenv('BOT_TOKEN')
 secret_token = os.getenv("SECRET_TOKEN")
 TOKEN = os.getenv('comfyapi')
 WORKFLOW=os.getenv('workflow')
-# webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
+webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
 bot = Bot(token=bot_token)
-# bot.set_webhook(url=webhook_url)
-# webhook_info = bot.get_webhook_info()
-# print(webhook_info)
+bot.set_webhook(url=webhook_url)
+webhook_info = bot.get_webhook_info()
+print(webhook_info)
 
 def auth_telegram_token(x_telegram_bot_api_secret_token: str = Header(None)) -> str:
     # return true # uncomment to disable authentication
+    return True
     if x_telegram_bot_api_secret_token != secret_token:
         raise HTTPException(status_code=403, detail="Not authenticated")
     return x_telegram_bot_api_secret_token
