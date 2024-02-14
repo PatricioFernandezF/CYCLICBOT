@@ -30,7 +30,7 @@ webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
 bot = Bot(token=bot_token)
 #asyncio.run(setup_webhook())
-setup_webhook()
+asyncio.run(setup_webhook())
 
 
 
