@@ -98,6 +98,7 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
     else:
         if "/prompt" in text:
             prompt=text.replace("/prompt ","")
+            return {"ok": True} 
             await bot.send_message(chat_id=chat_id, text="Procesando Prompt: "+prompt)
             api_key = TOKEN
             comfy_api = ComfyDeployAPI(api_key)
