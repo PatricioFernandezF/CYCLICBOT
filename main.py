@@ -20,15 +20,12 @@ async def inicializar():
     load_dotenv()
 
     # Read the variable from the environment (or .env file)
-    bot_token = os.getenv('BOT_TOKEN')
+    
     secret_token = os.getenv("SECRET_TOKEN")
     TOKEN = os.getenv('comfyapi')
     WORKFLOW=os.getenv('workflow')
     webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
-
-    bot = Bot(token=bot_token)
-    #asyncio.run(setup_webhook())
     print(bot)
     await bot.set_webhook(url=webhook_url)
     webhook_info = bot.get_webhook_info()
@@ -37,6 +34,8 @@ async def inicializar():
 
 
 app = FastAPI()
+bot_token = os.getenv('BOT_TOKEN')
+bot = Bot(token=bot_token)
 inicializar()
 
 
