@@ -68,11 +68,8 @@ async def check_workflow_completion(comfy_api, run_id, interval=5, timeout=300):
         output_response = await comfy_api.get_workflow_run_output(run_id)
         
         # Suponiendo que output_response contiene un estado que podemos verificar
-        if output_response["status"] == "completed":
+        if output_response:
             return output_response
-        elif output_response["status"] == "error":
-            # Manejar el caso de error si es necesario
-            break
         
         # Esperar por el intervalo antes de la próxima verificación
         print("Esperando por el intervalo...")
