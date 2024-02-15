@@ -26,7 +26,7 @@ class ComfyDeployAPI:
         response = requests.post(url, headers=self.headers, json=data)
         return response.json()
 
-    async def get_workflow_run_output(self, run_id, timeout=10000, interval=5):
+    async def get_workflow_run_output(self, run_id, timeout=100000, interval=10):
         """Obtiene el output de un run, esperando hasta que este finalice.
 
         Args:
