@@ -19,7 +19,7 @@ class ComfyDeployAPI:
         self.base_url = 'https://www.comfydeploy.com/api'
         self.headers = {'Authorization': f'Bearer {self.api_key}'}
 
-    def run_workflow(self, deployment_id,inputs):
+    async def run_workflow(self, deployment_id,inputs):
         url = f'{self.base_url}/run'
         data = {'deployment_id': deployment_id,"inputs": inputs}  # Asumiendo que se requiere un deployment_id en el cuerpo de la solicitud.
         response = requests.post(url, headers=self.headers, json=data)
