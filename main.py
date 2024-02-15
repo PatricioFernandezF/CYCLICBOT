@@ -11,7 +11,6 @@ import json
 class TelegramUpdate(BaseModel):
     update_id: int
     message: dict
-    run_id:dict
 
 app = FastAPI()
 
@@ -60,16 +59,16 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             api_key = TOKEN
             comfy_api = ComfyDeployAPI(api_key)
             workflow_id = WORKFLOW
-            run_response = comfy_api.run_workflow(workflow_id,{"input_text":prompt})
+            run_response = await comfy_api.run_workflow(workflow_id,{"input_text":prompt})
             print(run_response)
 
             # Ejemplo de cómo obtener la salida de la ejecución de un workflow
-            bot.run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
+            run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
             
     
             try:
-                if bot.run_id:
-                    output_response = await comfy_api.get_workflow_run_output(bot.run_id)
+                if run_id:
+                    output_response = await comfy_api.get_workflow_run_output(run_id)
                     print(output_response)
                     
                     image_info = output_response.get('outputs', [{}])[0].get('data', {}).get('images', [{}])[0]
