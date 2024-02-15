@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 import json
 import shutil
+import asyncio
 
 load_dotenv()
 
@@ -46,8 +47,9 @@ class ComfyDeployAPI:
             time.sleep(interval)
         raise TimeoutError("El tiempo de espera para el run ha excedido.")
     
-    
-    
+
+
+        
     def get_upload_url(self, file_type, file_size):
         url = f'{self.base_url}/upload-url'
         params = {

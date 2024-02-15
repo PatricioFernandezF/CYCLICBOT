@@ -25,7 +25,7 @@ async def inicializar():
     webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
     print(bot)
-    await bot.set_webhook(url=webhook_url)
+    bot.set_webhook(url=webhook_url)
     webhook_info = bot.get_webhook_info()
     print(webhook_info)
 
@@ -47,6 +47,40 @@ def auth_telegram_token(x_telegram_bot_api_secret_token: str = Header(None)) -> 
         raise HTTPException(status_code=403, detail="Not authenticated")
     return x_telegram_bot_api_secret_token
 
+ 
+
+async def check_workflow_completion(comfy_api, run_id, interval=5, timeout=300):
+    """
+    Verifica el estado de la ejecución de un workflow de manera asíncrona.
+    
+    Args:
+    - comfy_api: Instancia de ComfyDeployAPI para interactuar con el API.
+    - run_id: ID de la ejecución del workflow que se está verificando.
+    - interval: Intervalo de tiempo en segundos entre cada verificación.
+    - timeout: Tiempo máximo en segundos antes de terminar la verificación.
+    
+    Returns:
+    - El resultado de la ejecución del workflow si se completó.
+    - None si el tiempo de espera se agotó.
+    """
+    total_waited = 0
+    while total_waited < timeout:
+        output_response = comfy_api.get_workflow_run_output(run_id)
+        
+        # Suponiendo que output_response contiene un estado que podemos verificar
+        if output_response["status"] == "completed":
+            return output_response
+        elif output_response["status"] == "error":
+            # Manejar el caso de error si es necesario
+            break
+        
+        # Esperar por el intervalo antes de la próxima verificación
+        await asyncio.sleep(interval)
+        total_waited += interval
+    
+    # Devolver None si se excede el tiempo de espera
+    return None
+
 @app.post("/webhook/")
 async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_telegram_token)):
     chat_id = update.message["chat"]["id"]
@@ -67,7 +101,12 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             run_response = await comfy_api.run_workflow(workflow_id,{"input_text":prompt})
             print(run_response)
 
+            print("Esperando")
+            output_response = await check_workflow_completion(comfy_api, run_id)
+            print("terminado de esperar")
+
             # Ejemplo de cómo obtener la salida de la ejecución de un workflow
+            
             
 
             run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
