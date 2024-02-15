@@ -26,7 +26,7 @@ class ComfyDeployAPI:
         response = requests.post(url, headers=self.headers, json=data)
         return response.json()
 
-    async def get_workflow_run_output(self, run_id, timeout=300, interval=10):
+    async def get_workflow_run_output(self, run_id, timeout=300, interval=5):
         """Obtiene el output de un run, esperando hasta que este finalice.
 
         Args:
@@ -37,15 +37,19 @@ class ComfyDeployAPI:
         Returns:
             dict: Respuesta JSON del run finalizado.
         """
-        start_time = time.time()
-        while time.time() - start_time < timeout:
+        total_waited = 0
+        while total_waited < timeout:
             response = requests.get(f'{self.base_url}/run?run_id={run_id}', headers=self.headers)
             if response.status_code == 200:
                 data = response.json()
                 if data.get('status') in ['success', 'failed']:  # Ajusta los estados según la API real
                     return data
-            time.sleep(interval)
-        raise TimeoutError("El tiempo de espera para el run ha excedido.")
+
+       
+            await asyncio.sleep(interval)
+            total_waited += interval
+            
+        return None
     
 
 
