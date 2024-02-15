@@ -75,7 +75,14 @@ async def check_workflow_completion(comfy_api, run_id, interval=5, timeout=300):
             break
         
         # Esperar por el intervalo antes de la próxima verificación
+        print("Esperando por el intervalo...")
         await asyncio.sleep(interval)
+
+        try:
+            print(output_response)
+        except:
+            print("No se pudo imprimir el output_response")
+
         total_waited += interval
     
     # Devolver None si se excede el tiempo de espera
