@@ -101,9 +101,7 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             run_response = await comfy_api.run_workflow(workflow_id,{"input_text":prompt})
             print(run_response)
 
-            print("Esperando")
-            output_response = await check_workflow_completion(comfy_api, run_id)
-            print("terminado de esperar")
+            
 
             # Ejemplo de cómo obtener la salida de la ejecución de un workflow
             
@@ -112,6 +110,9 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
             #update["chat"].update({'run_id':run_id})
 
+            print("Esperando")
+            output_response = await check_workflow_completion(comfy_api, run_id)
+            print("terminado de esperar")
             #print(update["chat"]["run_id"])
     
             try:
