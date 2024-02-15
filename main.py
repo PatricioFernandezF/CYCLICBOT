@@ -12,27 +12,32 @@ class TelegramUpdate(BaseModel):
     update_id: int
     message: dict
 
+
+
+async def inicializar():
+
+    # Load variables from .env file if present
+    load_dotenv()
+
+    # Read the variable from the environment (or .env file)
+    bot_token = os.getenv('BOT_TOKEN')
+    secret_token = os.getenv("SECRET_TOKEN")
+    TOKEN = os.getenv('comfyapi')
+    WORKFLOW=os.getenv('workflow')
+    webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
+
+
+    bot = Bot(token=bot_token)
+    #asyncio.run(setup_webhook())
+    print(bot)
+    await bot.set_webhook(url=webhook_url)
+    webhook_info = bot.get_webhook_info()
+    print(webhook_info)
+
+
+
 app = FastAPI()
-
-# Load variables from .env file if present
-load_dotenv()
-
-# Read the variable from the environment (or .env file)
-bot_token = os.getenv('BOT_TOKEN')
-secret_token = os.getenv("SECRET_TOKEN")
-TOKEN = os.getenv('comfyapi')
-WORKFLOW=os.getenv('workflow')
-webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
-
-
-bot = Bot(token=bot_token)
-#asyncio.run(setup_webhook())
-print(bot)
-bot.set_webhook(url=webhook_url)
-webhook_info = bot.get_webhook_info()
-print(webhook_info)
-
-
+inicializar()
 
 
 def auth_telegram_token(x_telegram_bot_api_secret_token: str = Header(None)) -> str:
@@ -91,3 +96,5 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             await bot.send_message(chat_id=chat_id, text="Recuerda que solo estoy programado para recibir /prompt")
 
     return {"ok": True}
+
+
