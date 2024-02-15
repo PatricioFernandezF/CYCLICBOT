@@ -65,7 +65,7 @@ async def check_workflow_completion(comfy_api, run_id, interval=5, timeout=300):
     """
     total_waited = 0
     while total_waited < timeout:
-        output_response = comfy_api.get_workflow_run_output(run_id)
+        output_response = await comfy_api.get_workflow_run_output(run_id)
         
         # Suponiendo que output_response contiene un estado que podemos verificar
         if output_response["status"] == "completed":
@@ -101,12 +101,6 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             run_response = await comfy_api.run_workflow(workflow_id,{"input_text":prompt})
             print(run_response)
 
-            
-
-            # Ejemplo de cómo obtener la salida de la ejecución de un workflow
-            
-            
-
             run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
             #update["chat"].update({'run_id':run_id})
 
@@ -117,7 +111,6 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
     
             try:
                 if run_id:
-                    output_response = await comfy_api.get_workflow_run_output(run_id)
                     print(output_response)
                     
                     image_info = output_response.get('outputs', [{}])[0].get('data', {}).get('images', [{}])[0]
