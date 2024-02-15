@@ -5,7 +5,7 @@ from telegram import Update, Bot
 from pydantic import BaseModel
 import asyncio
 from deploy import ComfyDeployAPI
-
+import json
 
 
 class TelegramUpdate(BaseModel):
@@ -65,9 +65,7 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             # Ejemplo de cómo obtener la salida de la ejecución de un workflow
             run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
             
-            with open('run_id.json', 'w') as json_file:
-                json.dump(data, json_file)
-
+    
             try:
                 if run_id:
                     output_response = comfy_api.get_workflow_run_output(run_id)
