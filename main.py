@@ -68,7 +68,7 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
     
             try:
                 if run_id:
-                    output_response = comfy_api.get_workflow_run_output(run_id)
+                    output_response = await comfy_api.get_workflow_run_output(run_id)
                     print(output_response)
                     
                     image_info = output_response.get('outputs', [{}])[0].get('data', {}).get('images', [{}])[0]
