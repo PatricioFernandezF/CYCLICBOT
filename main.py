@@ -21,9 +21,7 @@ async def inicializar():
 
     # Read the variable from the environment (or .env file)
     
-    secret_token = os.getenv("SECRET_TOKEN")
-    TOKEN = os.getenv('comfyapi')
-    WORKFLOW=os.getenv('workflow')
+    
     webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
     print(bot)
@@ -34,6 +32,9 @@ async def inicializar():
 
 
 app = FastAPI()
+secret_token = os.getenv("SECRET_TOKEN")
+TOKEN = os.getenv('comfyapi')
+WORKFLOW=os.getenv('workflow')
 bot_token = os.getenv('BOT_TOKEN')
 bot = Bot(token=bot_token)
 inicializar()
