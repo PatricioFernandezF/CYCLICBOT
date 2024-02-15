@@ -63,6 +63,12 @@ async def handle_webhook(update: TelegramUpdate, token: str = Depends(auth_teleg
             print(run_response)
 
             # Ejemplo de cómo obtener la salida de la ejecución de un workflow
+            
+            try:
+                print(run_id)
+            except:
+                pass
+
             run_id = run_response["run_id"] # Reemplaza con el run_id real obtenido después de ejecutar el workflow
             try:
                 if run_id:
