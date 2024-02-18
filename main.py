@@ -23,44 +23,19 @@ bot_token = os.getenv('BOT_TOKEN')
 bot = Bot(token=bot_token)
 
 
-async def inicializar():
-    print("Inicializando")
+print("Inicializando")
 
-    # Load variables from .env file if present
-    load_dotenv()
 
-    # Read the variable from the environment (or .env file)
-    
-    
-    webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
+webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
 
-    print(bot)
-    bot.set_webhook(url=webhook_url)
-    webhook_info = bot.get_webhook_info()
-    print(webhook_info)
-    print("Terminado de inicializar")
+print(bot)
+bot.set_webhook(url=webhook_url)
+webhook_info = bot.get_webhook_info()
+print(webhook_info)
+print("Terminado de inicializar")
 
 
 
-print("PRE-INI")
-inicializar()
-
-def inicializar():
-    print("Inicializando")
-
-    # Load variables from .env file if present
-    load_dotenv()
-
-    # Read the variable from the environment (or .env file)
-    
-    
-    webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
-
-    print(bot)
-    bot.set_webhook(url=webhook_url)
-    webhook_info = bot.get_webhook_info()
-    print(webhook_info)
-    print("Terminado de inicializar")
 
 
 
