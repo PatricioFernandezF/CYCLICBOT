@@ -14,31 +14,20 @@ class TelegramUpdate(BaseModel):
 
 
 
-def inicializar(bot):
-
-    # Load variables from .env file if present
-    load_dotenv()
-
-    # Read the variable from the environment (or .env file)
-    
-    
-    webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
-
-    print(bot)
-    bot.set_webhook(url=webhook_url)
-    webhook_info = bot.get_webhook_info()
-    print(webhook_info)
-
-
 
 app = FastAPI()
+load_dotenv()
 secret_token = os.getenv("SECRET_TOKEN")
 TOKEN = os.getenv('comfyapi')
 WORKFLOW=os.getenv('workflow')
 bot_token = os.getenv('BOT_TOKEN')
 bot = Bot(token=bot_token)
 print("Inicializado")
-inicializar(bot)
+webhook_url = os.getenv('CYCLIC_URL', 'http://localhost:8181') + "/webhook/"
+print(bot)
+bot.set_webhook(url=webhook_url)
+webhook_info = bot.get_webhook_info()
+print(webhook_info)
 
 
 def auth_telegram_token(x_telegram_bot_api_secret_token: str = Header(None)) -> str:
