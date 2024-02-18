@@ -14,7 +14,8 @@ class TelegramUpdate(BaseModel):
 
 
 
-async def inicializar(bot):
+def inicializar():
+    print("Inicializando")
 
     # Load variables from .env file if present
     load_dotenv()
@@ -30,8 +31,9 @@ async def inicializar(bot):
     print(webhook_info)
 
 
-
+load_dotenv()
 app = FastAPI()
+print("Inicio")
 secret_token = os.getenv("SECRET_TOKEN")
 TOKEN = os.getenv('comfyapi')
 WORKFLOW=os.getenv('workflow')
@@ -39,7 +41,7 @@ bot_token = os.getenv('BOT_TOKEN')
 
 bot = Bot(token=bot_token)
 print("Inicializado")
-inicializar(bot)
+inicializar()
 
 
 def auth_telegram_token(x_telegram_bot_api_secret_token: str = Header(None)) -> str:
