@@ -39,7 +39,7 @@ bot_token = os.getenv('BOT_TOKEN')
 
 bot = Bot(token=bot_token)
 print("Inicializado")
-inicializar(bot)
+inicializar()
 
 
 def auth_telegram_token(x_telegram_bot_api_secret_token: str = Header(None)) -> str:
