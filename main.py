@@ -36,6 +36,7 @@ secret_token = os.getenv("SECRET_TOKEN")
 TOKEN = os.getenv('comfyapi')
 WORKFLOW=os.getenv('workflow')
 bot_token = os.getenv('BOT_TOKEN')
+print("Inicializado")
 bot = Bot(token=bot_token)
 inicializar()
 
