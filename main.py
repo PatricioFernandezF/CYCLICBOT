@@ -14,7 +14,7 @@ class TelegramUpdate(BaseModel):
 
 
 
-async def inicializar(bot):
+async def inicializar():
 
     # Load variables from .env file if present
     load_dotenv()
